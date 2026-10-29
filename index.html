@@ -208,7 +208,27 @@
         </div>
     </div>
 
-    <!-- Terminal de Logs de Auditoria -->
+       <!-- Terminal de Logs de Auditoria -->
+    <label>Console de Auditoria do Core Banking</label>
+    <div class="terminal-logs" id="terminal">
+        <div class="log-linha log-sistema">> Motor Antifraude inicializado com sucesso. Aguardando eventos...</div>
+    </div>
+</div>
+
+<!-- Ligação com o arquivo de simulação dos botões -->
+<script src="app.js"></script>
+
+<script>
+    // Estado do Banco de Dados Relacional Simulador
+    const DB_CONTAS = {
+        "127001": { saldo: 0.0, limite_diario: 5000.0, status: "SUSPEITA", idade_meses: 1 },
+        "127002": { saldo: 50000.0, limite_diario: 20000.0, status: "CONFIAVEL", idade_meses: 24 },
+        "127003": { saldo: 10.0, limite_diario: 1000.0, status: "NOVA", idade_meses: 0 }
+    };
+</script>
+</body>
+</html>
+
     <label>Console de Auditoria do Core Banking:</label>
     <div class="terminal-logs" id="terminal">
         <div class="log-linha log-sistema">[SISTEMA] Motor de consistência ativado. Aguardando eventos transacionais...</div>
