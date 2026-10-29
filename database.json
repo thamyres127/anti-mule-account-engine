@@ -1,0 +1,29 @@
+{
+  "contas": [
+    {
+      "id": "127001-5",
+      "agencia": "0001",
+      "titular": "Conta Laranja Suspeita",
+      "idade_dias": 5,
+      "tipo": "nova",
+      "saldo": 0.0
+    },
+    {
+      "id": "127002-3",
+      "agencia": "0001",
+      "titular": "Cliente Antigo Confiável",
+      "idade_dias": 730,
+      "tipo": "antiga",
+      "saldo": 50000.0
+    },
+    {
+      "id": "127003-1",
+      "agencia": "0001",
+      "titular": "Conta Destino Final",
+      "idade_dias": 120,
+      "tipo": "intermediaria",
+      "saldo": 10.0
+    }
+  ],
+  "transacoes": []
+}
