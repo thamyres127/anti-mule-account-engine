@@ -207,8 +207,7 @@
             </button>
         </div>
     </div>
-
-       <!-- Terminal de Logs de Auditoria -->
+    <!-- Terminal de Logs de Auditoria -->
     <label>Console de Auditoria do Core Banking</label>
     <div class="terminal-logs" id="terminal">
         <div class="log-linha log-sistema">> Motor Antifraude inicializado com sucesso. Aguardando eventos...</div>
@@ -228,88 +227,3 @@
 </script>
 </body>
 </html>
-
-    <label>Console de Auditoria do Core Banking:</label>
-    <div class="terminal-logs" id="terminal">
-        <div class="log-linha log-sistema">[SISTEMA] Motor de consistência ativado. Aguardando eventos transacionais...</div>
-    </div>
-</div>
-
-<script>
-    // Estado do Banco de Dados Relacional em Memória Local
-    const DB_CONTAS = {
-        "127001": { saldo: 0.0, limite_historico: 200.0, dias: 5 },
-        "127002": { saldo: 50000.0, limite_historico: 10000.0, dias: 1000 },
-        "127003": { saldo: 10.0, limite_historico: 500.0, dias: 500 }
-    };
-
-    let ultimaEntradaTimestamp = null;
-    const terminal = document.getElementById("terminal");
-
-    function atualizarTela() {
-        document.getElementById("saldo-127001").innerText = `R$ ${DB_CONTAS["127001"].saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-        document.getElementById("saldo-127002").innerText = `R$ ${DB_CONTAS["127002"].saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-        document.getElementById("saldo-127003").innerText = `R$ ${DB_CONTAS["127003"].saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    }
-
-    function adicionarLog(texto, classe) {
-        const linha = document.createElement("div");
-        linha.className = `log-linha ${classe}`;
-        linha.innerText = texto;
-        terminal.appendChild(linha);
-        terminal.scrollTop = terminal.scrollHeight;
-    }
-
-    function simularInjecaoPix() {
-        DB_CONTAS["127001"].saldo += 15000.0;
-        ultimaEntradaTimestamp = new Date();
-        atualizarTela();
-        adicionarLog(`[SISTEMA CORE] Entrada de R$ 15.000,00 processada na conta 127001 às ${ultimaEntradaTimestamp.toLocaleTimeString()}.`, "log-sucesso");
-    }
-
-    function simularEvasaoRapida() {
-        const contaOrigem = "127001";
-        const contaDestino = "127003";
-        const valor = 15000.0;
-        const timestampAtual = new Date();
-
-        if (DB_CONTAS[contaOrigem].saldo < valor) {
-            adicionarLog("[BLOCK] Saldo insuficiente para realizar a transferência.", "log-alerta");
-            return;
-        }
-
-        let scoreRisco = 0;
-        let motivos = [];
-
-        // Regra 1: Idade da Conta
-        if (DB_CONTAS[contaOrigem].dias < 15) {
-            scoreRisco += 40;
-            motivos.push(`Conta Nova (${DB_CONTAS[contaOrigem].dias} dias de existência)`);
-        }
-
-        // Regra 2: Estouro de Perfil
-        if (valor > (DB_CONTAS[contaOrigem].limite_historico * 5)) {
-            scoreRisco += 35;
-            motivos.push(`Estouro de Perfil (Tentativa de R$ ${valor} para limite histórico de R$ ${DB_CONTAS[contaOrigem].limite_historico})`);
-        }
-
-        // Regra 3: Fator Tempo (Evasão Veloz)
-        if (ultimaEntradaTimestamp) {
-            const diferencaSegundos = (timestampAtual - ultimaEntradaTimestamp) / 1000;
-            if (diferencaSegundos < 30) {
-                scoreRisco += 45;
-                motivos.push(`Alta Velocidade de Evasão (${Math.floor(diferencaSegundos)} segundos após a entrada)`);
-            }
-        }
-
-        adicionarLog(`\n[🚨 ALERTA MOTOR ANTI-MULE] DEMÊNCIA DETECTADA NA CONTA ${contaOrigem}!`, "log-alerta");
-        adicionarLog(`[SCORE DE RISCO]: ${scoreRisco} PONTOS (CRÍTICO)`, "log-alerta");
-        motivos.forEach(m => adicionarLog(`  -> ${m}`, "log-destaque"));
-
-        if (scoreRisco >= 70) {
-            DB_CONTAS[contaOrigem].saldo -= valor;
-            atualizarTela();
-            adicionarLog(`[AÇÃO CORE BANKING]: Transação retida preventivamente por 30 minutos. Fundos isolados na conta de liquidação.`, "log-alerta");
-        }
-    }
-
