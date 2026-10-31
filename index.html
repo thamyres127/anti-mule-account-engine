@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Mule Account Engine - Core Banking</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .ag-cc { color: #aaaaaa; font-size: 14px; margin-bottom: 10px; }
+        .saldo-verde { color: #00ff00; font-size: 24px; font-weight: bold; margin: 5px 0; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 420px; margin-top: 15px; }
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .btn-primary { background-color: #0a58ca; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        button:disabled { background-color: #444444; color: #888888; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <!-- Bloco 1: Conta Laranja Suspeita -->
+    <div class="card">
+        <h3>Conta Laranja Suspeita</h3>
+        <div class="ag-cc">Ag/Cc: 0001 / 127001-5<br>Idade: Nova (5 dias)</div>
+        <div class="saldo-verde">R$ 0,00</div>
+    </div>
+
+    <!-- Bloco 2: Cliente Antigo Confiável -->
+    <div class="card">
+        <h3>Cliente Antigo Confiável</h3>
+        <div class="ag-cc">Ag/Cc: 0001 / 127002-3<br>Idade: Antiga (2024)</div>
+        <div class="saldo-verde">R$ 50.000,00</div>
+    </div>
+
+    <!-- Bloco 3: Conta Destino Final -->
+    <div class="card">
+        <h3>Conta Destino Final</h3>
+        <div class="ag-cc">Ag/Cc: 0001 / 127003-1<br>Idade: Intermediária</div>
+        <div class="saldo-verde">R$ 10,00</div>
+    </div>
+
+    <!-- Seção de Ações / Botões de Simulação -->
+    <div class="btn-group">
+        <button id="btn-injetar-pix" class="btn-primary">Injetar Pix</button>
+        <button id="btn-forcar-evasao" class="btn-danger">2. Forçar Evasão Rápida (3s)</button>
+        <button id="btn-simular-legitima" class="btn-secondary">Simular Transferência Legítima do Cliente Antigo (R$ 500)</button>
+    </div>
+
+    <!-- CAIXA DE OUTPUT (Onde a mágica acontece e o resultado aparece) -->
+    <div id="resultado-analise" style="width: 100%; max-width: 400px;"></div>
+
+    <!-- Conexão do Script JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
